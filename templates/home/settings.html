@@ -46,7 +46,7 @@
                             </div>
                             {% if showUpdate %}
                                 <div class="pl-lg-4">
-                                    <input type="button" class="btn btn-danger" value="更新"
+                                    <input type="button" class="btn btn-danger" value="同步更新"
                                            onclick="query_update()">
                                 </div>
                             {% endif %}
@@ -170,7 +170,7 @@
                         </form>
                         <form id="update-settings">
                             <hr class="my-4"/>
-                            <h6 class="heading-small text-muted mb-4">更新设置</h6>
+                            <h6 class="heading-small text-muted mb-4">更新配置</h6>
                             <div class="pl-lg-4">
                                 <div class="row">
                                     {% csrf_token %}
@@ -388,7 +388,7 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/gh/am-abudu/Qexo@latest/static/assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/am-abudu/Qexo@dev/static/assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
     <script>
         {% if error %}
             $.notify("{{ error }}", {type: "warning"});
