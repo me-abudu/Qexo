@@ -298,3 +298,11 @@ def save_setting(name, content):
         new_set.content = ""
     new_set.save()
     return new_set
+
+
+def check_if_api_auth(request):
+    if request.POST.get("token") == SettingModel.objects.get(name="WEBHOOK_APIKEY").content:
+        return True
+    if request.GET.get("token") == SettingModel.objects.get(name="WEBHOOK_APIKEY").content:
+        return True
+    return False
