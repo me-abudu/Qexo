@@ -271,16 +271,19 @@ def pages(request):
         elif "new_page" in load_template:
             repo = get_repo()
             try:
+                now = time()
+                alg = SettingModel.objects.get(name="ABBRLINK_ALG").content
+                rep = SettingModel.objects.get(name="ABBRLINK_REP").content
+                abbrlink = get_crc_by_time(str(now), alg, rep)
                 context["file_content"] = repr(
                     repo.get_contents(
                         SettingModel.objects.get(name="GH_REPO_PATH").content + "scaffolds/page.md",
                         ref=SettingModel.objects.get(
-                            name="GH_REPO_BRANCH").content).decoded_content.decode(
-                        "utf8")).replace("<",
-                                         "\\<").replace(
-                    ">", "\\>").replace("{{ date }}", strftime("%Y-%m-%d %H:%M:%S",
-                                                               localtime(
-                                                                   time()))).replace("!", "\\!")
+                            name="GH_REPO_BRANCH").content).decoded_content.decode("utf8")).replace(
+                    "<", "\\<").replace(">", "\\>").replace("{{ date }}",
+                                                            strftime("%Y-%m-%d %H:%M:%S",
+                                                                     localtime(now))).replace(
+                    "{{ abbrlink }}", abbrlink).replace("!", "\\!")
 
             except:
                 pass
@@ -288,24 +291,27 @@ def pages(request):
                 if SettingModel.objects.get(
                         name="IMG_TYPE").content:
                     context["img_bed"] = True
-            except:
-                pass
+            except Exception as error:
+                context["error"] = repr(error)
         elif "new" in load_template:
             repo = get_repo()
             try:
+                now = time()
+                alg = SettingModel.objects.get(name="ABBRLINK_ALG").content
+                rep = SettingModel.objects.get(name="ABBRLINK_REP").content
+                abbrlink = get_crc_by_time(str(now), alg, rep)
                 context["file_content"] = repr(
                     repo.get_contents(
                         SettingModel.objects.get(name="GH_REPO_PATH").content + "scaffolds/post.md",
                         ref=SettingModel.objects.get(
-                            name="GH_REPO_BRANCH").content).decoded_content.decode(
-                        "utf8").replace("{{ date }}", strftime("%Y-%m-%d %H:%M:%S",
-                                                               localtime(
-                                                                   time())))).replace("<",
-                                                                                      "\\<").replace(
+                            name="GH_REPO_BRANCH").content).decoded_content.decode("utf8").replace(
+                        "{{ date }}", strftime("%Y-%m-%d %H:%M:%S", localtime(
+                            now)))).replace("{{ abbrlink }}", abbrlink).replace("<",
+                                                                                "\\<").replace(
                     ">", "\\>").replace("!", "\\!")
 
-            except:
-                pass
+            except Exception as error:
+                context["error"] = repr(error)
             try:
                 if SettingModel.objects.get(
                         name="IMG_TYPE").content:
@@ -499,6 +505,18 @@ def pages(request):
                         name="IMG_TYPE").content
                 except:
                     save_setting('IMG_TYPE', '')
+                try:
+                    context['ABBRLINK_ALG'] = SettingModel.objects.get(
+                        name="ABBRLINK_ALG").content
+                except:
+                    save_setting('ABBRLINK_ALG', 'crc16')
+                    context['ABBRLINK_ALG'] = "crc16"
+                try:
+                    context['ABBRLINK_REP'] = SettingModel.objects.get(
+                        name="ABBRLINK_REP").content
+                except:
+                    save_setting('ABBRLINK_REP', 'dec')
+                    context['ABBRLINK_REP'] = "dec"
 
             except Exception as e:
                 context["error"] = repr(e)
