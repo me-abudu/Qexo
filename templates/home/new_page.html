@@ -48,10 +48,10 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-    <link href="https://unpkg.zhimg.com/vditor@3.8.7/dist/index.css" rel="stylesheet"/>
-    <script src="https://unpkg.zhimg.com/vditor@3.8.7/dist/index.min.js"></script>
+    <link href="{{ cdn_prev }}vditor@3.8.8/dist/index.css" rel="stylesheet"/>
+    <script src="{{ cdn_prev }}vditor@3.8.8/dist/index.min.js"></script>
 
-    <script src="https://unpkg.zhimg.com/qexo-static@1.0.0/assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="{{ cdn_prev }}qexo-static@1.0.0/assets/vendor/bootstrap-notify/bootstrap-notify.min.js"></script>
     <script>
         var _status = true;
 
@@ -151,12 +151,12 @@
                         } else {
                             $.notify(res.msg, {type: "warning", delay: 1000});
                         }
-                        _status=true;
+                        _status = true;
                     },
                     error: function (res) {
                         loading.destroy();
                         $.notify("网络错误！", {type: "warning", delay: 1000});
-                        _status=true;
+                        _status = true;
                     }
                 })
 
@@ -173,6 +173,8 @@
                 toolbarConfig: {
                     pin: true
                 },
+                "cdn": "{{ cdn_prev }}vditor@3.8.8",
+                "mode": "ir",
                 counter: {
                     enable: true
                 },
@@ -186,6 +188,10 @@
                 "debugger": false,
                 "cache": {
                     "enable": false,
+                }, "preview": {
+                    "theme": {
+                        "path": "{{ cdn_prev }}vditor@3.8.8/dist/css/content-theme/light.css"
+                    }
                 },
                 toolbar: [
                     'emoji',
@@ -330,7 +336,7 @@
                         if (responseData.status) {
                             let imageUrl = responseData.url;
                             let succFileText = "";
-                            if (vditor && vditor.vditor.currentMode === "wysiwyg") {
+                            if (vditor && vditor.vditor.currentMode === "ir") {
                                 succFileText += `\n <img alt=${imageUrl} src="${imageUrl}">`;
                             } else {
                                 succFileText += `\n![${imageUrl}](${imageUrl})`;
@@ -398,6 +404,7 @@
                     "fullscreen",
                     "preview"
                 ],
+                "cdn": "{{ cdn_prev }}vditor@3.8.8",
                 "fullscreen": {
                     "index": 1050,
                 },
@@ -408,7 +415,10 @@
                 "mode": "sv",
                 "debugger": false,
                 "preview": {
-                    "mode": "both"
+                    "mode": "both",
+                    "theme": {
+                        "path": "{{ cdn_prev }}vditor@3.8.8/dist/css/content-theme/light.css"
+                    }
                 }, hint: {
                     emoji: {
                         "\u5fae\u7b11": "\ud83d\ude42",
@@ -535,7 +545,7 @@
                         if (responseData.status) {
                             let imageUrl = responseData.url;
                             let succFileText = "";
-                            if (vditor && vditor.vditor.currentMode === "wysiwyg") {
+                            if (vditor && vditor.vditor.currentMode === "ir") {
                                 succFileText += `\n <img alt=${imageUrl} src="${imageUrl}">`;
                             } else {
                                 succFileText += `\n![${imageUrl}](${imageUrl})`;

@@ -9,11 +9,12 @@ from .api import *
 
 
 def page_404(request, exception):
-    return render(request, 'home/page-404.html')
+    return render(request, 'home/page-404.html', {"cdn_prev": "https://cdn.jsdelivr.net/npm/"})
 
 
 def page_500(request):
-    return render(request, 'home/page-500.html', {"error": "程序遇到了错误！"})
+    return render(request, 'home/page-500.html',
+                  {"error": "程序遇到了错误！", "cdn_prev": "https://cdn.jsdelivr.net/npm/"})
 
 
 def login_view(request):
@@ -306,7 +307,7 @@ def pages(request):
                         ref=SettingModel.objects.get(
                             name="GH_REPO_BRANCH").content).decoded_content.decode("utf8").replace(
                         "{{ date }}", strftime("%Y-%m-%d %H:%M:%S", localtime(
-                            now)))).replace("{{ abbrlink }}", abbrlink).replace("<",
+                            now))).replace("{{ abbrlink }}", abbrlink)).replace("<",
                                                                                 "\\<").replace(
                     ">", "\\>").replace("!", "\\!")
 
