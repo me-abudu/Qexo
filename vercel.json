@@ -1,21 +1,13 @@
 {
-  "builds": [
-    {
-      "src": "migrate.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "templates"
-      }
-    },
-    {
-        "src": "*.py",
-        "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "core/wsgi.py"
-    }
-  ]
+    "builds": [{
+        "src": "vercel_app/wsgi.py",
+        "use": "@ardnt/vercel-python-wsgi",
+        "config": { "maxLambdaSize": "15mb" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "vercel_app/wsgi.py"
+        }
+    ]
 }
