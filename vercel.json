@@ -8,8 +8,8 @@
       }
     },
     {
-        "src": "core/wsgi.py",
-        "use": "@ardnt/vercel-python-wsgi",
+        "src": "*.py",
+        "use": "@vercel/python",
     }
   ],
   "routes": [
